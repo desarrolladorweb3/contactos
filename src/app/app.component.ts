@@ -19,12 +19,23 @@ export class AppComponent implements OnInit {
   is_loading_registers = true;
   age: number;
   ngOnInit(): void {
-    this.service.getContacts().then((data) =>  { this.contacts = data; this.is_loading_registers = false; }).catch((error) => { console.log(JSON.stringify(error)); });
+    this.service.getContacts().then((data) =>  {
+      this.contacts = data;
+      this.is_loading_registers = false;
+    }).catch((error) => {
+      console.log(JSON.stringify(error));
+    });
     this.dtOptions = {
       pagingType: 'full_numbers',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'
       },
+      dom: 'Bfrtip',
+      buttons: [
+        'copy',
+        'excel',
+        'print'
+      ],
     };
   }
 
@@ -71,8 +82,7 @@ export class AppComponent implements OnInit {
     )
   }
 
-  createContact(contact: Contacts){
-    location.reload();
+  createContact(){
     Swal.fire(
       'Registrado!',
       'Se ha registrado el contacto satisfactoriamente.',
