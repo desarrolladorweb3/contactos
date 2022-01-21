@@ -1,0 +1,26 @@
+[
+  {
+    "id" : 1,
+    "name" : "Julián Rojas Bustamante",
+    "telephone" : "3017605251",
+    "birth_date": "1999-08-17",
+    "address": "Calle 131C #90-23",
+    "email": "julianrjs15@gmail.com"
+  },
+  {
+    "id" : 2,
+    "name" : "Jorge Perez",
+    "telephone" : "3047645251",
+    "birth_date": "1965-01-11",
+    "address": "Av 51D #10-13",
+    "email": "jorgep@gmail.com"
+  },
+  {
+    "id" : 3,
+    "name" : "Marta Pineda",
+    "telephone" : "3057665211",
+    "birth_date": "1979-12-09",
+    "address": "AK 102 #67-12",
+    "email": "martap@gmail.com"
+  }
+]

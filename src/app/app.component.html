@@ -4,11 +4,11 @@
       <h3>Mis contactos</h3>
     </div>
     <div class="col-12 my-3">
-      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contacto">
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrar_contacto">
         Agregar
       </button>
     </div>
-    <div class="col-12 my-3">
+    <div class="col-12 my-3" *ngIf="!is_loading_registers">
       <table datatable [dtOptions]="dtOptions" class="row-border hover">
         <thead>
         <tr>
@@ -22,16 +22,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <td>Julián Rojas</td>
-          <td>3017602523</td>
-          <td>22</td>
-          <td>17/08/1999</td>
-          <td>Calle 173C #10-10</td>
-          <td>julianrjs15@gmail.com</td>
+        <tr *ngFor="let contact of contacts">
+          <td> {{ contact.name }} </td>
+          <td> {{ contact.telephone }} </td>
+          <td> {{ CalculateAge(contact.birth_date) }} años</td>
+          <td> {{ contact.birth_date }} </td>
+          <td> {{ contact.address }} </td>
+          <td> {{ contact.email }} </td>
           <td>
-            <button class="btn btn-success mx-1" title="Editar">Editar</button>
-            <button class="btn btn-danger" title="Eliminar">Eliminar</button>
+            <button data-bs-toggle="modal" data-bs-target="#contacto" class="btn btn-success mx-1" (click)="setCurrentContact(contact)" title="Editar">Editar</button>
+            <button class="btn btn-danger" (click)="deleteContact(contact)" title="Eliminar">Eliminar</button>
           </td>
         </tr>
         </tbody>
@@ -39,33 +39,78 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="contacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div *ngIf="true" class="modal fade" id="contacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Registrar contacto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar contacto</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            <label>Nombre</label>
+            <input type="name" class="form-control" id="name" placeholder="Nombre" value="{{current_contact.name}}">
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+            <label>Telefono</label>
+            <input type="number" class="form-control" id="telphone" placeholder="Telefono" value="{{current_contact.telephone}}">
           </div>
-          <div class="form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+          <div class="form-group">
+            <label>Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="birth_date" value="{{current_contact.birth_date}}">
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="name" class="form-control" id="address" placeholder="Dirección" value="{{current_contact.address}}">
+          </div>
+          <div class="form-group">
+            <label>Correo electronico</label>
+            <input type="email" class="form-control" id="email" placeholder="Correo electronico" value="{{current_contact.email}}">
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="updateContact(current_contact)">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="registrar_contacto" tabindex="-1" aria-labelledby="test" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="test">Registrar contacto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="name" class="form-control" id="new_name" placeholder="Nombre" value="">
+          </div>
+          <div class="form-group">
+            <label>Telefono</label>
+            <input type="number" class="form-control" id="new_telphone" placeholder="Telefono" value="">
+          </div>
+          <div class="form-group">
+            <label>Fecha de nacimiento</label>
+            <input type="date" class="form-control" id="new_birth_date" value="">
+          </div>
+          <div class="form-group">
+            <label>Dirección</label>
+            <input type="name" class="form-control" id="new_address" placeholder="Dirección" value="">
+          </div>
+          <div class="form-group">
+            <label>Correo electronico</label>
+            <input type="email" class="form-control" id="new_email" placeholder="Correo electronico" value="">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
